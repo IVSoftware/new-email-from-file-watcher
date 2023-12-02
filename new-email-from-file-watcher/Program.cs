@@ -26,6 +26,7 @@ namespace new_email_from_file_watcher
                 using (var mainForm = new RadForm2())
                 using(var fileWatcher = new FileSystemWatcher(path))
                 {
+                    mainForm.Disposed += (sender, e) => mutex.ReleaseMutex();
                     mainForm.MyTimer = new System.Windows.Forms.Timer
                     {
                         Interval = 100,
@@ -70,7 +71,6 @@ namespace new_email_from_file_watcher
                     contextMenu.Items.Add("Exit", null, (sender, e) =>
                     {
                         notifyIcon.Visible = false;
-                        mutex.ReleaseMutex();
                         Application.Exit();
                     });
                     notifyIcon.ContextMenuStrip = contextMenu;
